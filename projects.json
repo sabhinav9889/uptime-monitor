@@ -24,10 +24,9 @@
     {
       "project": "home-awareness",
       "name": "health",
-      "url": "https://yourname.duckdns.org/health",
+      "url": "https://home-awareness-101026.duckdns.org/health",
       "expectContains": "\"status\":\"ok\"",
-      "enabled": false,
-      "note": "Set the real domain, then set enabled to true. /health checks Postgres and Redis."
+      "note": "/health checks Postgres and Redis. Oracle VM."
     }
   ]
 }
