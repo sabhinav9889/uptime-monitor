@@ -1,0 +1,37 @@
+name: Monitor
+
+on:
+  schedule:
+    - cron: '17 */3 * * *' # every 3 hours; GitHub may delay a run by several minutes
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: monitor
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate the config
+        run: npm run validate
+      - name: Check every project
+        run: npm run check
+      - name: Tell ntfy (optional)
+        if: failure()
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: |
+          if [ -n "$NTFY_TOPIC" ]; then
+            curl -fsS -H "Title: Uptime check failed" -H "Priority: high" \
+              -d "A project is down. See ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" \
+              "https://ntfy.sh/${NTFY_TOPIC}" || true
+          fi

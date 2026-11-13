@@ -1,0 +1,14 @@
+{
+  "name": "uptime-monitor",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Config-driven keep-alive and uptime checks for all my projects.",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "check": "node scripts/run.mjs",
+    "validate": "node scripts/run.mjs --validate",
+    "add": "node scripts/add-project.mjs",
+    "test": "node --test \"test/*.test.mjs\""
+  }
+}

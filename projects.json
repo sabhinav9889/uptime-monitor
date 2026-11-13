@@ -1,0 +1,33 @@
+{
+  "defaults": {
+    "method": "GET",
+    "expectStatus": 200,
+    "timeoutMs": 20000,
+    "retries": 2,
+    "retryDelayMs": 5000,
+    "slowMs": 8000,
+    "enabled": true
+  },
+  "checks": [
+    {
+      "project": "shiksha-path",
+      "name": "api-database-read",
+      "url": "https://wlwlijbszskhmqeqwuws.supabase.co/functions/v1/api/v1/branding",
+      "note": "Public route that reads the database, so it counts as Supabase activity and stops the free-plan pause."
+    },
+    {
+      "project": "shiksha-path",
+      "name": "web-app",
+      "url": "https://shiksha-path.pages.dev",
+      "note": "Static PWA on Cloudflare Pages (never pauses, checked for outages only)."
+    },
+    {
+      "project": "home-awareness",
+      "name": "health",
+      "url": "https://yourname.duckdns.org/health",
+      "expectContains": "\"status\":\"ok\"",
+      "enabled": false,
+      "note": "Set the real domain, then set enabled to true. /health checks Postgres and Redis."
+    }
+  ]
+}
